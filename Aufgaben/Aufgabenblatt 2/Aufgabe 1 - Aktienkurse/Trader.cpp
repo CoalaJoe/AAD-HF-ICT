@@ -10,45 +10,47 @@
  */
 int Trader::calculateMaxProfit(const int *values, const int ARRAY_SIZE)
 {
-    int  previousValue = values[0];
-    int  startIndex;
-    int  startValue;
-    int  investment;
-    bool foundStart    = false;
+    int *maxPrice = new int[ARRAY_SIZE];
+    int *winnings = new int[ARRAY_SIZE];
 
-    // Get first spike and buy before.
-    for (int i = 1; i < ARRAY_SIZE; ++i) {
-        if (previousValue < values[i]) {
-            startIndex = i;
-            startValue = values[i];
-            investment = startValue;
-            foundStart = true;
-            break;
+    // Generate array with highest upcomming winnings.
+    int lastMaxPrice = values[ARRAY_SIZE - 1];
+
+    for (int i = ARRAY_SIZE - 1; i >= 0; --i) {
+        if (values[i] > lastMaxPrice) {
+            lastMaxPrice = values[i];
         }
-        previousValue = values[i];
-    }
-    if (!foundStart) {
-        std::cout << "Do not waste your money on this one.";
-        return 0;
+        maxPrice[i] = lastMaxPrice;
     }
 
-    for (int i = startIndex; i < ARRAY_SIZE; ++i) {
-        if (i + 2 < ARRAY_SIZE) { // I have at least 2 more cycles.
-            if (values[i] < values[i + 1]) { // The one cycle after the next is more lucrative.
-                continue;
-            } else if (investment < values[i]) { // Next Cycle is better than this.
-                investment = values[i];
-            } else { // Bad times ahead.
-                continue;
-            }
+    // Calculate optimal entry point.
+    int entryPoint    = 0;
+    int currentProfit = maxPrice[1] - values[0];
 
-        } else if (i + 1 < ARRAY_SIZE) { // I have one more cycle.
-
-        } else { // Last cycle.
-
+    for (int i = 0; i < ARRAY_SIZE - 1; ++i) { // Don't do the last period.
+        winnings[i] = maxPrice[i+1] - values[i];
+        if (winnings[i] > currentProfit) {
+            currentProfit = winnings[i];
+            entryPoint    = i;
         }
-
     }
 
-    return investment - startValue;
+    std::cout << "Value:\t\t\t\t\t";
+    for (int i = 0; i < ARRAY_SIZE; ++i) {
+        std::cout << values[i] << "\t";
+    }
+    std::cout << "\n";
+    std::cout << "Highest upcoming price:\t";
+    for (int i = 0; i < ARRAY_SIZE; ++i) {
+        std::cout << maxPrice[i] << "\t";
+    }
+    std::cout << "\n";
+    std::cout << "Highest winning: \t\t";
+    for (int i = 0; i < ARRAY_SIZE; ++i) {
+        std::cout << winnings[i] << "\t";
+    }
+    std::cout << "\n";
+    std::cout << "\n";
+
+    return winnings[entryPoint];
 }

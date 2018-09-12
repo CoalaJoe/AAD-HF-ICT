@@ -35,25 +35,24 @@ int main()
 {
     int testSet1[10] = {67, 109, 133, 118, 110, 132, 84, 138, 63, 89};
     int *testSet2 = buildTestSet(20, 40, 160);
-    int result1, result2;
+    int testSet3[10] = {120, 109, 100, 90, 85, 70, 50, 30, 20, 10};
+    int result1, result2, result3;
 
     std::cout << "Testset 1\n";
-    for (int i : testSet1) {
-        std::cout << i << "\n";
-    }
+    result1 = Trader::calculateMaxProfit(testSet1, 10);
     std::cout << "\n";
 
     std::cout << "Testset 2\n";
-    for (int i = 0; i < 20; ++i) {
-        std::cout << testSet2[i] << "\n";
-    }
+    result2 = Trader::calculateMaxProfit(testSet2, 20);
     std::cout << "\n";
 
-    result1 = Trader::calculateMaxProfit(testSet1, 10);
-    result2 = Trader::calculateMaxProfit(testSet2, 20);
+    std::cout << "Testset 3\n";
+    result3 = Trader::calculateMaxProfit(testSet3, 10);
+    std::cout << "\n";
 
     std::cout << "Maximaler Gewinn 1: " << result1 << "\n";
     std::cout << "Maximaler Gewinn 2: " << result2 << "\n";
+    std::cout << "Maximaler Gewinn 3: " << result3 << "\n";
 
     return 0;
 }
