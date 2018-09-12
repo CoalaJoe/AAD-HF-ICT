@@ -13,7 +13,7 @@ int Trader::calculateMaxProfit(const int *values, const int ARRAY_SIZE)
     int *maxPrice = new int[ARRAY_SIZE];
     int *winnings = new int[ARRAY_SIZE];
 
-    // Generate array with highest upcomming winnings.
+    // Generate array with highest upcoming winnings.
     int lastMaxPrice = values[ARRAY_SIZE - 1];
 
     for (int i = ARRAY_SIZE - 1; i >= 0; --i) {
