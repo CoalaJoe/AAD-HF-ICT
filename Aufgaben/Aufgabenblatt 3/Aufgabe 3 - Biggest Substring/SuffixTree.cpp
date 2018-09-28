@@ -32,13 +32,13 @@ void SuffixTree::build(std::string s1)
         std::cout << "Similar Node found: " << "\"" << similarNode->getValue() << "\" with string \"" << s1
                   << "\" at length " << similarityLength << "\n";
         // If similarityLength is length of Node, append Node to Node.
-        if (similarityLength - 1 == similarNode->getValue().length()) {
+        if (similarityLength + 1 == similarNode->getValue().length()) {
             SuffixNode newNode;
             newNode.setValue(s1.erase(0, similarityLength)); // Remove similarNode value from new node.
             similarNode->nodes.push_back(newNode);
         } else {
             // Strip similarNode and new node. Update children
-            similarNode->setValue(similarNode->getValue().substr(0, similarityLength));
+            //similarNode->setValue(similarNode->getValue().substr(0, similarityLength));
             for (auto &nestedNodes: similarNode->nodes) {
                 nestedNodes.setValue(nestedNodes.getValue().substr(0, similarityLength));
             }

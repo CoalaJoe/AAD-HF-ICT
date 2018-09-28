@@ -8,14 +8,21 @@
 class SuffixNode {
 private:
     std::string value;
+
+    SuffixNode *suffixLink;
+
+    int start;
+    int *end;
+    int suffixIndex;
 public:
+    SuffixNode(int start, int *end, SuffixNode *root);
+    SuffixNode();
+
     std::vector<SuffixNode> nodes;
 
     const std::string &getValue() const;
 
     void setValue(const std::string &value);
-
-    bool isLeafNode();
 };
 
 
