@@ -2,30 +2,16 @@
 #define AUFGABE_3_BIGGEST_SUBSTRING_SUFFIXTREE_H
 
 #include <string>
+#include <vector>
 #include "SuffixNode.h"
 
 class SuffixTree {
-public:
-    /**
-     * Find longest common substring
-     */
-    void findLCS(std::string s1, std::string s2);
-
 private:
-    std::string   alphabet     = "abcdefghijklmnopqrstuvwxyz1234567890-#";
-    unsigned long alphabetSize = alphabet.size();
-    int           lcsLength;
-    int           lcsBeginIndex;
+    std::vector<SuffixNode> nodes;
+    void build(std::string s1);
 
-    /**
-     * Build suffix tree for given text
-     */
-    SuffixNode *build(std::string s);
-
-    /**
-     * Find longest common substring
-     */
-    int findLCS(SuffixNode *node, int i1, unsigned long i2);
+public:
+    std::string getLongestCommonString(std::string input1, std::string input2);
 };
 
 #endif //AUFGABE_3_BIGGEST_SUBSTRING_SUFFIXTREE_H

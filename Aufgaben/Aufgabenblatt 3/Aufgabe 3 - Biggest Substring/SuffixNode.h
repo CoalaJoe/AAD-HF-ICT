@@ -2,17 +2,20 @@
 #define AUFGABE_3_BIGGEST_SUBSTRING_SUFFIXNODE_H
 
 
-class SuffixNode {
-    public:
-        int depth, begin, end;
-        SuffixNode **children;
-        SuffixNode *parent, *suffixLink;
-        /*
-         * Constructor
-         */
-        SuffixNode(int begin, int end, int depth, SuffixNode *parent);
+#include <string>
+#include <vector>
 
-        bool contains(int d);
+class SuffixNode {
+private:
+    std::string value;
+public:
+    std::vector<SuffixNode> nodes;
+
+    const std::string &getValue() const;
+
+    void setValue(const std::string &value);
+
+    bool isLeafNode();
 };
 
 

@@ -1,115 +1,78 @@
+#include <utility>
+
 #include "SuffixTree.h"
 #include <iostream>
 
-SuffixNode *SuffixTree::build(std::string s)
+
+void SuffixTree::build(std::string s1)
 {
-    int stringSize = static_cast<int>(s.length());
-    int *a         = new int[stringSize];
+    SuffixNode    *similarNode     = nullptr;
+    unsigned long similarityLength = 0;
+    unsigned long i;
+    int           lengthOfSmallerNode;
 
-    // Map string to alphabet.
-    for (int i = 0; i < stringSize; ++i) {
-        a[i] = static_cast<int>(alphabet.find(s.at(static_cast<unsigned long>(i))));
-    }
+    for (auto &node : this->nodes) {
+        if (node.getValue().at(0) == s1.at(0)) {
+            lengthOfSmallerNode = static_cast<int>((node.getValue().length() > s1.length()) ? s1.length()
+                                                                                            : node.getValue().length());
 
-    auto       *root = new SuffixNode(0, 0, 0, nullptr);
-    SuffixNode *cn   = root;
-    root->suffixLink = root;
-    SuffixNode *needsSuffixLink = nullptr;
-
-    int lastRule = 0;
-    int i, j     = 0;
-
-    for (i = -1; i < stringSize - 1; i++) {
-        int cur = a[i + 1];
-        for (; j <= i + 1; j++) {
-            int curDepth = i + 1 - j;
-            if (lastRule != 3) {
-                if (cn->suffixLink != nullptr)
-                    cn = cn->suffixLink;
-                else
-                    cn = cn->parent->suffixLink;
-                int k  = j + cn->depth;
-                while (curDepth > 0 && !cn->contains(curDepth - 1)) {
-                    k += cn->end - cn->begin;
-                    cn = cn->children[a[k]];
+            for (i = 0; i < lengthOfSmallerNode; ++i) {
+                if (node.getValue().at(i) != s1.at(i)) {
+                    // Not similar anymore
+                    if (similarityLength < i) {
+                        similarityLength = i;
+                        similarNode      = &node;
+                        break;
+                    }
                 }
             }
-            if (!cn->contains(curDepth)) {
-                if (needsSuffixLink != nullptr) {
-                    needsSuffixLink->suffixLink = cn;
-                    needsSuffixLink = nullptr;
-                }
-                if (cn->children[cur] == nullptr) {
-                    cn->children[cur] = new SuffixNode(i + 1, stringSize, curDepth, cn);
-                    lastRule = 2;
-                } else {
-                    cn       = cn->children[cur];
-                    lastRule = 3;
-                    break;
-                }
-            } else {
-                int end = cn->begin + curDepth - cn->depth;
-                if (a[end] != cur) {
-                    auto *newn = new SuffixNode(cn->begin, end, cn->depth, cn->parent);
-                    newn->children[cur]                = new SuffixNode(i + 1, stringSize, curDepth, newn);
-                    newn->children[a[end]]             = cn;
-                    cn->parent->children[a[cn->begin]] = newn;
-                    if (needsSuffixLink != nullptr)
-                        needsSuffixLink->suffixLink = newn;
-                    cn->begin                       = end;
-                    cn->depth                       = curDepth;
-                    cn->parent                      = newn;
-                    cn       = needsSuffixLink = newn;
-                    lastRule = 2;
-                } else if (cn->end != stringSize || (cn->begin - cn->depth) < j) {
-                    lastRule = 3;
-                    break;
-                } else
-                    lastRule = 1;
+        }
+    }
+    if (similarityLength != 0) {
+        std::cout << "Similar Node found: " << "\"" << similarNode->getValue() << "\" with string \"" << s1
+                  << "\" at length " << similarityLength << "\n";
+        // If similarityLength is length of Node, append Node to Node.
+        if (similarityLength - 1 == similarNode->getValue().length()) {
+            SuffixNode newNode;
+            newNode.setValue(s1.erase(0, similarityLength)); // Remove similarNode value from new node.
+            similarNode->nodes.push_back(newNode);
+        } else {
+            // Strip similarNode and new node. Update children
+            similarNode->setValue(similarNode->getValue().substr(0, similarityLength));
+            for (auto &nestedNodes: similarNode->nodes) {
+                nestedNodes.setValue(nestedNodes.getValue().substr(0, similarityLength));
+            }
+
+            SuffixNode newNode;
+            newNode.setValue(s1.erase(0, similarityLength)); // Remove similarNode value from new node.
+            similarNode->nodes.push_back(newNode);
+        }
+    } else { // If none is found. Append to root.
+        SuffixNode node;
+        node.setValue(s1);
+        this->nodes.push_back(node);
+    }
+
+    // Remove first letter.
+    s1.erase(0, 1);
+    if (!s1.empty()) {
+        build(s1);
+    }
+}
+
+std::string SuffixTree::getLongestCommonString(std::string input1, std::string input2)
+{
+    // Add character to distinguish end of string in nodes.
+    this->build(std::move(input1 + "$"));
+
+    for (const auto &node: this->nodes) {
+        std::cout << "\"" << node.getValue() << "\"\n";
+        if (!node.nodes.empty()) {
+            for (const auto &innerNode: this->nodes) {
+                std::cout << "---> \"" << innerNode.getValue() << "\"\n";
             }
         }
     }
-    root->suffixLink = nullptr;
-    return root;
-}
 
-int SuffixTree::findLCS(SuffixNode *node, int i1, unsigned long i2)
-{
-    if (node->begin <= i1 && i1 < node->end)
-        return 1;
-    if (node->begin <= i2 && i2 < node->end)
-        return 2;
-    int      mask = 0;
-    for (int f    = 0; f < alphabetSize; f++) {
-        if (node->children[f] != nullptr) {
-            mask |= findLCS(node->children[f], i1, i2);
-        }
-    }
-    if (mask == 3) {
-        int curLength = node->depth + node->end - node->begin;
-        if (lcsLength < curLength) {
-            lcsLength     = curLength;
-            lcsBeginIndex = node->begin;
-        }
-    }
-    return mask;
-}
-
-void SuffixTree::findLCS(std::string s1, std::string s2)
-{
-    std::string x     = "-";
-    std::string y     = "#";
-    // Building appropriate string with delimiters.
-    std::string s     = s1.append(x.append(s2.append(y)));
-    SuffixNode  *root = build(s);
-    lcsLength     = 0;
-    lcsBeginIndex = 0;
-    findLCS(root, static_cast<int>(s1.length()), static_cast<int>(s1.length() + s2.length() + 1));
-    bool chk = lcsLength > 0;
-    if (chk) {
-        std::cout << "\nLongest substring is " << s.substr(static_cast<unsigned long>(lcsBeginIndex),
-                                                           static_cast<unsigned long>(lcsLength)) << "\n";
-    } else {
-        std::cout << "No substring found\n";
-    }
+    return std::string();
 }

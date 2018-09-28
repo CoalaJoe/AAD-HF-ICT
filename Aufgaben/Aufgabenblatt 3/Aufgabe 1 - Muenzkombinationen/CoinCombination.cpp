@@ -1,27 +1,36 @@
 #include "CoinCombination.h"
 #include <iostream>
-#include "stdio.h"
+#include <cmath>
+#include <iomanip>
 
 void CoinCombination::printCoinCombination(double value, const double *coins, const int ARRAY_SIZE)
 {
-    printf("Betrag: %0.2f CHF\n", value);
-    std::sort(coins, coins + ARRAY_SIZE);
-    std::string outputBuffer;
+    //auto sortedCoins = new double[ARRAY_SIZE];
+    //std::copy(coins, coins + ARRAY_SIZE, sortedCoins);
+    //std::sort(sortedCoins, sortedCoins + ARRAY_SIZE);
 
+    int amountOfCoins;
+
+    printf("Betrag: %0.2f CHF\n", value);
+
+    std::cout << "Münzen: ";
     for (int i = 0; i < ARRAY_SIZE; ++i) {
-        outputBuffer += std::to_string(coins[i]);
+        std::cout << coins[i];
         if (i + 1 != ARRAY_SIZE) {
-            outputBuffer += ", ";
+            std::cout << ", ";
         }
     }
-    std::cout << "Münzen: " << outputBuffer << "\n";
-    std::cout << "Resultat: ";
+    std::cout << "\nResultat: ";
     for (int i = 0; i < ARRAY_SIZE; ++i) {
-        outputBuffer += std::to_string(value / coins[i]);
-        // TODO: No modulo...
-        value = value % coins[i];
+        if (value != 0) {
+            amountOfCoins = (int)(round(value * 100) / round(coins[i] * 100));
+            value -= (amountOfCoins * coins[i]);
+        } else {
+            amountOfCoins = 0;
+        }
+            std::cout << amountOfCoins;
         if (i + 1 != ARRAY_SIZE) {
-            outputBuffer += ", ";
+            std::cout << ", ";
         }
     }
 }

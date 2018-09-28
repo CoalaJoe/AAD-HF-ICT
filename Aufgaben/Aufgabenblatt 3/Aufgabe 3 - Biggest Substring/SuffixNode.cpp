@@ -1,15 +1,11 @@
 #include "SuffixNode.h"
 
-SuffixNode::SuffixNode(int begin, int end, int depth, SuffixNode *parent)
+const std::string &SuffixNode::getValue() const
 {
-    children = new SuffixNode* [38];
-    this->begin = begin;
-    this->end = end;
-    this->parent = parent;
-    this->depth = depth;
+    return value;
 }
 
-bool SuffixNode::contains(int d)
+void SuffixNode::setValue(const std::string &value)
 {
-    return depth <= d && d < depth + (end - begin);
+    SuffixNode::value = value;
 }

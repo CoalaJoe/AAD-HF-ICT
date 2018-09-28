@@ -11,7 +11,7 @@
 int main()
 {
     double value1  = 10.50;
-    auto   *coins1 = new double[3]{0.10, 0.05, 0.20};
+    auto   *coins1 = new double[3]{0.20, 0.10, 0.05};
 
     CoinCombination::printCoinCombination(value1, coins1, 3);
 
