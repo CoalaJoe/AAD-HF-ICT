@@ -6,7 +6,7 @@
 
 class GEncoderDecoder {
 public:
-    static std::string encode(std::string input);
+    static std::string decode(std::string input);
 };
 
 

@@ -9,8 +9,10 @@ int main()
     std::string input2  = "a GgG d GggGg e GggGG g GGGgg h GGGgG i GGGGg l GGGGG m ggg o GGg p Gggg r gG y ggG\nGGGgGGGgGGggGGgGggG /gG/GggGgGgGGGGGgGGGGGggGGggggGGGgGGGgggGGgGggggggGggGGgG!";
     std::string result2 = "hooray /r/dailyprogrammer!";
 
-    if (result1 == GEncoderDecoder::encode(input1)) {
+    if (result1 == GEncoderDecoder::decode(input1)) {}
 
+    if (result2 == GEncoderDecoder::decode(input2)) {
+        std::cout << "Success";
     }
 
     return 0;
