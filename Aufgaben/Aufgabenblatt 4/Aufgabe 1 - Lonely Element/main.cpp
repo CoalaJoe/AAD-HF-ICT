@@ -14,21 +14,15 @@
 
 int main()
 {
-    std::wstring_convert<std::codecvt_utf8<char32_t>, char32_t> converter;
+    std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> converter;
 
     clock_t start, stop;
     start = clock();
-    //char32_t result = StringUtil::getLonelyElement(U"abcäddcba11");
-    char result = StringUtil::getLonelyElement("abcdedcba11");
+    wchar_t result = StringUtil::getLonelyElement(L"abc💩ddcba11");
+    //char result = StringUtil::getLonelyElement("abcdedcba11");
     stop = clock();
     std::cout << "Time: " << std::fixed << (double) (stop-start) / CLOCKS_PER_SEC << "sec" << std::endl;
-    //std::cout << "Character '" << converter.to_bytes(result) << "' found.\n";
-    std::cout << "Character '" << result << "' found.\n";
-    if (U'e' == result) {
-        std::cout << "Success";
-        return 0;
-    }
-    std::cout << "Error";
+    std::cout << "Character '" << converter.to_bytes(result) << "' found.\n";
 
-    return 1;
+    return 0;
 }

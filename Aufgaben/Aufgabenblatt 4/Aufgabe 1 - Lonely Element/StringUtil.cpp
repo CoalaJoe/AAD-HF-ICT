@@ -1,36 +1,39 @@
 #include <iostream>
 #include <vector>
 #include <codecvt>
+#include <map>
 #include "StringUtil.h"
 
 
-char32_t StringUtil::getLonelyElement(std::u32string input)
+wchar_t StringUtil::getLonelyElement(std::wstring input)
 {
-    int set[256] = {};
-    std::wstring_convert<std::codecvt_utf8<char32_t>, char32_t> converter;
+    std::map<wchar_t, long>                                   set;
+    std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> converter;
 
-    for (char32_t &c : input) {
-        ++set[(int) c];
+    for (wchar_t &c : input) {
+        set[c]++;
     }
 
-    for (int i = 0; i < 256; ++i) {
-        if (set[i] == 1) {
-            return (char32_t) i;
+    for (auto &c : set) {
+        if (c.second == 1) {
+            return c.first;
         }
     }
 
-    return 0;
+    return (wchar_t) '0';
 }
+
+#define SIZE 128
 
 char StringUtil::getLonelyElement(string input)
 {
-    int set[128] = {};
+    int set[SIZE] = {};
 
     for (char &c : input) {
         ++set[(int) c];
     }
 
-    for (int i = 0; i < 128; ++i) {
+    for (int i = 0; i < SIZE; ++i) {
         if (set[i] == 1) {
             return (char) i;
         }

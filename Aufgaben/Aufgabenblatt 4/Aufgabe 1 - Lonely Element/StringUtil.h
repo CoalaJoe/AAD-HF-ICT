@@ -8,7 +8,7 @@ using namespace std;
 class StringUtil {
 public:
     static char getLonelyElement(string input);
-    static char32_t getLonelyElement(u32string input);
+    static wchar_t getLonelyElement(wstring input);
 };
 
 
