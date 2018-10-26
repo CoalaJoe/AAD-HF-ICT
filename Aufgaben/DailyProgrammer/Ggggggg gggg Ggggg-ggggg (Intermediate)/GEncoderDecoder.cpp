@@ -1,11 +1,12 @@
 #include <iostream>
 #include <vector>
 #include <map>
+#include <unordered_map>
 #include "GEncoderDecoder.h"
 
 std::string GEncoderDecoder::decode(std::string input)
 {
-    std::map<std::string, char> encodingTable;
+    std::unordered_map<std::string, char> encodingTable;
 
     std::string encodingTableString = input.substr(0, input.find('\n'));
     std::string encodedText         = input.substr(input.find('\n'), input.length());
