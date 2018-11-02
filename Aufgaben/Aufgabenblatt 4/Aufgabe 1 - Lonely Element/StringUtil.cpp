@@ -1,14 +1,12 @@
 #include <iostream>
 #include <vector>
-#include <codecvt>
 #include <map>
 #include "StringUtil.h"
 
 
 wchar_t StringUtil::getLonelyElement(std::wstring input)
 {
-    std::map<wchar_t, long>                                   set;
-    std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> converter;
+    std::map<wchar_t, long> set;
 
     for (wchar_t &c : input) {
         set[c]++;
