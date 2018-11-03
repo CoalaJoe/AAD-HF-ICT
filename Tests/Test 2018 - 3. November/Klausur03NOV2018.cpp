@@ -6,6 +6,7 @@
 #include<set>
 #include<deque>
 #include<list>
+#include<unordered_set>
 #include"KlausurUtils.h"
 
 using namespace std;
@@ -25,20 +26,93 @@ string aufgabe3_samples = "Aufgabe3_Samples.dat";
 
 bool methodeAufgabe1(int loadRecordsQty, int value)
 {
-    // IMLEMENTIEREN SIE IHRE LOESUNG HIER
-    return false; // PASSEN SIE DEN RETURN WERT AN
+    vector<int> values;
+    values.reserve(loadRecordsQty);
+
+    for (int i = 0; i < loadRecordsQty; ++i) {
+        values.push_back(getDataAufgabe1(i));
+    }
+
+    for (const auto &v : values) {
+        if (v > value) {
+            continue;
+        }
+        for (const auto &iv : values) {
+            if (v + iv == value) {
+                return true;
+            } else if (v + iv > value) { // Break into outer loop.
+                break;
+            }
+        }
+    }
+
+    return false;
 }
 
 int methodeAufgabe2(int n)
 {
-    // IMLEMENTIEREN SIE IHRE LOESUNG HIER
-    return 1; // PASSEN SIE DEN RETURN WERT AN
+    // Easy method: return 1 + (n-1)%9;
+
+    int sum = 0, rem;
+    while (n > 0) {
+        rem = n % 10;
+        n   = n / 10;
+        sum = sum + rem;
+    }
+
+    if (sum > 9) {
+        return methodeAufgabe2(sum);
+    }
+
+    return sum;
 }
 
 vector<int> methodeAufgabe3(int loadRecordsQty)
 {
-    // IMLEMENTIEREN SIE IHRE LOESUNG HIER
-    return *(new vector<int>(2)); // PASSEN SIE DEN RETURN WERT AN
+    // https://stackoverflow.com/questions/1041620/whats-the-most-efficient-way-to-erase-duplicates-and-sort-a-vector
+    // https://stackoverflow.com/questions/471432/in-which-scenario-do-i-use-a-particular-stl-container
+    unordered_set<int> odd;
+    vector<int>        oddV;
+    unordered_set<int> even;
+    vector<int>        evenV;
+
+    for (int i = 0; i < loadRecordsQty; ++i) {
+        int value = getDataAufgabe3(i);
+        if (value % 2 == 0) {
+            even.insert(value);
+        } else {
+            odd.insert(value);
+        }
+    }
+
+    oddV.assign(odd.begin(), odd.end());
+    sort(oddV.begin(), oddV.end());
+    evenV.assign(even.begin(), even.end());
+    sort(evenV.begin(), evenV.end());
+
+    oddV.insert(oddV.end(), evenV.begin(), evenV.end());
+
+    return oddV;
+
+    /* First approach
+    vector<int> result;
+    result.reserve(loadRecordsQty);
+    set<int> odd;
+    set<int> even;
+
+    for (int i = 0; i < loadRecordsQty; ++i) {
+        int value = getDataAufgabe3(i);
+        if (value % 2 == 0) {
+            even.insert(value);
+        } else {
+            odd.insert(value);
+        }
+    }
+
+    result.assign(odd.begin(), odd.end());
+    result.insert(result.end(), even.begin(), even.end());
+
+    return result;*/
 }
 
 int main()
