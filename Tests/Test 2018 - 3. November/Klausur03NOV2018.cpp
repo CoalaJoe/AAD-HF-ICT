@@ -33,17 +33,15 @@ bool methodeAufgabe1(int loadRecordsQty, int value)
         values.push_back(getDataAufgabe1(i));
     }
 
-    for (const auto &v : values) {
-        if (v > value) {
-            continue;
-        }
-        for (const auto &iv : values) {
-            if (v + iv == value) {
-                return true;
-            } else if (v + iv > value) { // Break into outer loop.
-                break;
-            }
-        }
+    unsigned long low = 0;
+    unsigned long hi  = static_cast<unsigned long>(loadRecordsQty - 1);
+    long long     sum;
+
+    while (low < hi) {
+        sum = values[low] + values[hi];
+        if (sum == value) return true;
+        if (sum > value) --hi;
+        else ++low;
     }
 
     return false;
@@ -85,6 +83,7 @@ vector<int> methodeAufgabe3(int loadRecordsQty)
         }
     }
 
+    oddV.reserve(loadRecordsQty);
     oddV.assign(odd.begin(), odd.end());
     sort(oddV.begin(), oddV.end());
     evenV.assign(even.begin(), even.end());
