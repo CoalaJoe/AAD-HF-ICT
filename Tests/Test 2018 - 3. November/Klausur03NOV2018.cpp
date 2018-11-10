@@ -29,7 +29,7 @@ bool methodeAufgabe1(int loadRecordsQty, int value)
     vector<int> values;
     values.reserve(loadRecordsQty);
 
-    for (int i = 0; i < loadRecordsQty; ++i) {
+    for (int i = 0; i < loadRecordsQty-1; ++i) {
         values.push_back(getDataAufgabe1(i));
     }
 
@@ -74,7 +74,7 @@ vector<int> methodeAufgabe3(int loadRecordsQty)
     unordered_set<int> even;
     vector<int>        evenV;
 
-    for (int i = 0; i < loadRecordsQty; ++i) {
+    for (int i = 0; i < loadRecordsQty -1; ++i) {
         int value = getDataAufgabe3(i);
         if (value % 2 == 0) {
             even.insert(value);
