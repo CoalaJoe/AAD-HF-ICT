@@ -26,25 +26,27 @@ string aufgabe3_samples = "Aufgabe3_Samples.dat";
 
 bool methodeAufgabe1(int loadRecordsQty, int value)
 {
-    vector<int> values;
-    values.reserve(loadRecordsQty);
+     vector<int> values;
+     values.reserve(loadRecordsQty);
 
-    for (int i = 0; i < loadRecordsQty-1; ++i) {
-        values.push_back(getDataAufgabe1(i));
-    }
+     for (int i = 0; i < loadRecordsQty; ++i) {
+         values.push_back(getDataAufgabe1(i));
+     }
 
-    unsigned long low = 0;
-    unsigned long hi  = static_cast<unsigned long>(loadRecordsQty - 1);
-    long long     sum;
+     for (const auto &v : values) {
+         if (v > value) {
+             continue;
+         }
+         for (const auto &iv : values) {
+             if (v + iv == value) {
+                 return true;
+             } else if (v + iv > value) { // Break into outer loop.
+                 break;
+             }
+         }
+     }
 
-    while (low < hi) {
-        sum = values[low] + values[hi];
-        if (sum == value) return true;
-        if (sum > value) --hi;
-        else ++low;
-    }
-
-    return false;
+     return false;
 }
 
 int methodeAufgabe2(int n)

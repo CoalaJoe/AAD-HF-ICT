@@ -19,12 +19,15 @@ private:
 
     void preorder(Node *n);
 
+    int height(Node *n);
+
+    bool getPath(int sum, vector<int> &path, Node *n);
+
 public:
     void insert(int value);
 
     void preorder();
 
-    int height(Node *n);
 
     int height();
 
@@ -65,29 +68,44 @@ int calcRight(Node *n, int sum)
     return calcRight(n->left, sum);
 }
 
-vector<int> recusiveGetPath(Node *n, vector<int> calculatedSum, int iSum)
+vector<int> recusiveGetPath(Node *n, vector<int> &calculatedSum, int iSum)
 {
     return calculatedSum;
 }
 
+bool Tree::getPath(int sum, vector<int> &path, Node *n)
+{
+    if (n == nullptr) {
+        return false;
+    }
+
+    path.push_back(n->data);
+    if (n->left == nullptr && n->right == nullptr) {
+        int       lSum = 0;
+        for (auto i : path) {
+            std::cout << i << ",";
+            lSum += i;
+        }
+        if (sum == lSum) {
+            return true;
+        }
+    } else {
+        if (getPath(sum, path, n->left)) return true;
+        if (getPath(sum, path, n->right)) return true;
+    }
+    path.pop_back();
+
+    return false;
+}
+
 vector<int> Tree::getPath(int sum)
 {
-    int         iSum = 0;
-    vector<int> calculatedSum;
-    if (this->root == nullptr) {
-        return calculatedSum;
+    vector<int> path;
+    if (!this->getPath(sum, path, this->root)) {
+        // Not found
     }
-    calculatedSum.push_back(this->root->data);
-    iSum += this->root->data;
-    if (this->root->left->data < sum - iSum) {
-        // Sum with left is smaller than target sum.
-        if (this->root->data > 0) {
-            // current is still positive
-            return recusiveGetPath(this->root->left, calculatedSum, iSum);
-        } else {
-            // Dont go further
-        }
-    }
+
+    return path;
 }
 
 void Tree::preorder()
