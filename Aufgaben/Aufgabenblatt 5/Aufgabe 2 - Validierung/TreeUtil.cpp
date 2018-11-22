@@ -4,7 +4,7 @@
 #include "TreeUtil.h"
 
 bool TreeUtil::isBinarySearchTree(std::vector<int> values) {
-    return isBinarySearchTree(std::move(values), 0);
+    return isBinarySearchTree(std::move(values), 0, );
 }
 
 bool TreeUtil::isBinarySearchTree(std::vector<int> values, int nodePos) {
