@@ -12,15 +12,32 @@
 int main()
 {
     // Valid
-    //std::vector<int> input = {20, 12, 34, 9, 19, 29};
+    std::vector<int> input1 = {20, 12, 34, 9, 19, 29};
     // Invalid
-    std::vector<int> input = {20, 112, 34, 9, 19, 29};
+    std::vector<int> input2 = {20, 112, 34, 9, 19, 29};
     // Invalid
-    //std::vector<int> input = {20, 12, 34, 9, 24, 29};
-    if (TreeUtil::isBinarySearchTree(input)) {
-        std::cout << "Der Suchbaum ist valide.";
+    std::vector<int> input3 = {20, 12, 34, 9, 24, 29};
+
+
+    std::cout << "Valider Baum ist: ";
+    if (TreeUtil::isBinarySearchTree(input1)) {
+        std::cout << "valide\n";
     } else {
-        std::cout << "Der Suchbaum ist nicht valide.";
+        std::cout << "nicht valide\n";
+    }
+
+    std::cout << "Invalider Baum ist: ";
+    if (TreeUtil::isBinarySearchTree(input2)) {
+        std::cout << "valide\n";
+    } else {
+        std::cout << "nicht valide\n";
+    }
+
+    std::cout << "Invalider Baum ist: ";
+    if (TreeUtil::isBinarySearchTree(input3)) {
+        std::cout << "valide\n";
+    } else {
+        std::cout << "nicht valide\n";
     }
 
     return 0;

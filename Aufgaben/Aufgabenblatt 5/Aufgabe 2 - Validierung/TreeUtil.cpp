@@ -1,13 +1,10 @@
 #include <utility>
-#include <limits>
+#include <climits>
 #include <iostream>
 #include "TreeUtil.h"
 
 bool TreeUtil::isBinarySearchTree(std::vector<int> values) {
-    int min = std::numeric_limits<int>::min();
-    int max = std::numeric_limits<int>::max();
-
-    return isBinarySearchTree(std::move(values), 0, min, max);
+    return isBinarySearchTree(std::move(values), 0, INT_MIN, INT_MAX);
 }
 
 bool TreeUtil::isBinarySearchTree(std::vector<int> values, int nodePos, int leftBound, int rightBound) {
