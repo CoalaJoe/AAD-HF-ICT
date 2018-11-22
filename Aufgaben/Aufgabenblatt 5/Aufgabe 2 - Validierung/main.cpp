@@ -14,9 +14,9 @@ int main()
     // Valid
     //std::vector<int> input = {20, 12, 34, 9, 19, 29};
     // Invalid
-    //std::vector<int> input = {20, 112, 34, 9, 19, 29};
+    std::vector<int> input = {20, 112, 34, 9, 19, 29};
     // Invalid
-    std::vector<int> input = {20, 12, 34, 9, 24, 29};
+    //std::vector<int> input = {20, 12, 34, 9, 24, 29};
     if (TreeUtil::isBinarySearchTree(input)) {
         std::cout << "Der Suchbaum ist valide.";
     } else {

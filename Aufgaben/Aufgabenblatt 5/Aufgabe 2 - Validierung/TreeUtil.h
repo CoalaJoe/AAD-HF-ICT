@@ -8,7 +8,7 @@ public:
     static bool isBinarySearchTree(std::vector<int> values);
 
 protected:
-    static bool isBinarySearchTree(std::vector<int> values, int nodePos);
+    static bool isBinarySearchTree(std::vector<int> values, int nodePos, int leftBound, int rightBound);
     static int getLeftNode(std::vector<int> values, int nodePos);
     static int getRightNode(std::vector<int> values, int nodePos);
 };

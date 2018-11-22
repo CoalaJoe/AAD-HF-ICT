@@ -1,27 +1,30 @@
 #include <utility>
-
+#include <limits>
 #include <iostream>
 #include "TreeUtil.h"
 
 bool TreeUtil::isBinarySearchTree(std::vector<int> values) {
-    return isBinarySearchTree(std::move(values), 0, );
+    int min = std::numeric_limits<int>::min();
+    int max = std::numeric_limits<int>::max();
+
+    return isBinarySearchTree(std::move(values), 0, min, max);
 }
 
-bool TreeUtil::isBinarySearchTree(std::vector<int> values, int nodePos) {
+bool TreeUtil::isBinarySearchTree(std::vector<int> values, int nodePos, int leftBound, int rightBound) {
     int nodeLeft = getLeftNode(values, nodePos);
     int nodeRight = getRightNode(values, nodePos);
     bool valid = true;
 
     if (nodeLeft != -1) {
-        if (values[nodeLeft] < values[nodePos]) {
-            valid &= isBinarySearchTree(values, nodeLeft);
+        if (values[nodeLeft] < values[nodePos] && values[nodeLeft] > leftBound) {
+            valid &= isBinarySearchTree(values, nodeLeft, leftBound, values[nodePos]);
         } else {
             valid = false;
         }
     }
     if (nodeRight != -1) {
-        if (values[nodeRight] > values[nodePos]) {
-            valid &= isBinarySearchTree(values, nodeRight);
+        if (values[nodeRight] > values[nodePos] && values[nodeRight] < rightBound) {
+            valid &= isBinarySearchTree(values, nodeRight, values[nodePos], rightBound);
         } else {
             valid = false;
         }
