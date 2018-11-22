@@ -7,27 +7,27 @@ void TreeUtil::printMaximumPath(std::vector<int> values) {
     std::vector<path> paths;
     path path;
 
+    // Build all possible paths into paths
     getPath(paths, path, std::move(values), 0);
 
-    int i = 0;
+    // Index of path with highest value
     int maxPath = -1;
+    // The highest value found.
     int maxValue = 0;
-    bool set = false;
 
-    for (i = 0; i < paths.size(); ++i) {
+    for (int i = 0; i < paths.size(); ++i) {
         int sum = 0;
         auto nv = paths[i];
         for (auto const &n : nv) {
             sum += n;
         }
-        if (!set || sum > maxValue) {
-            set = true;
+        if (maxPath == -1 || sum > maxValue) {
             maxPath = i;
             maxValue = sum;
         }
     }
 
-    if (set) {
+    if (maxPath != -1) {
         for (auto const &n : paths[maxPath]) {
             std::cout << n << ", ";
         }
