@@ -16,14 +16,14 @@ bool TreeUtil::isBinarySearchTree(std::vector<int> values, int nodePos, int left
         if (values[nodeLeft] < values[nodePos] && values[nodeLeft] > leftBound) {
             valid &= isBinarySearchTree(values, nodeLeft, leftBound, values[nodePos]);
         } else {
-            valid = false;
+            return false;
         }
     }
     if (nodeRight != -1) {
         if (values[nodeRight] > values[nodePos] && values[nodeRight] < rightBound) {
             valid &= isBinarySearchTree(values, nodeRight, values[nodePos], rightBound);
         } else {
-            valid = false;
+            return false;
         }
     }
 
