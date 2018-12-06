@@ -15,10 +15,20 @@
 #include <queue>
 #include "Graph.h"
 
-std::vector<int> getPath(Graph *g, int start, int end);
+std::vector<int> getPath(Graph *g, unsigned int start, unsigned int end);
 
 int main() {
-    std::cout << "Hello, World!" << std::endl;
+    Graph g;
+    srand(3);
+    g.randomInit(10, 20, true);
+    std::cout << g;
+    auto path = getPath(&g, 0, 4);
+    
+    for (auto n : path) {
+        std::cout << n << ", ";
+    }
+    std::cout << "\n";
+
     return 0;
 }
 
