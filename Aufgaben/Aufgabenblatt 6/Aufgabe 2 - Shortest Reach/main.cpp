@@ -18,7 +18,13 @@
 int shortestReach(Graph *g, unsigned long start, unsigned long end);
 
 int main() {
-    std::cout << "Hello, World!" << std::endl;
+    Graph g;
+    srand(5);
+    g.randomInit(10, 20);
+    std::cout << g;
+
+    std::cout << shortestReach(&g, 0, 5);
+
     return 0;
 }
 
